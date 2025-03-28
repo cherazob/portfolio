@@ -105,6 +105,7 @@ WITH deduplication AS (SELECT *, RANK() OVER(PARTITION BY ARREST_KEY, ARREST_DAT
 					   )
 DELETE FROM deduplication
 WHERE ranking > 1
+GO
 
 -- Check for null values
 
@@ -267,3 +268,5 @@ FROM ArrestDataClean
 GROUP BY ARREST_BORO
 ORDER BY COUNT(ARREST_KEY) DESC
 GO
+
+SELECT '-1203.25' AS Covariance, '-0.01' AS [Correlation coefficient]-- Age range vs Arrests
