@@ -305,6 +305,169 @@ GO
 
 -- Tables for Analysis
 
+-- Statistics
+-- GDP
+WITH MEAN AS (SELECT ROUND(AVG([Gross domestic product]),2) AS [MEAN]
+			   FROM gdp_stats)
+,	 
+	 STDE AS (SELECT ROUND(STDEV([Gross domestic product]),2) AS [STDEV]
+			   FROM gdp_stats)
+,
+   MEDIAN AS (SELECT TOP 1 PERCENTILE_CONT(0.5)
+			  WITHIN GROUP(ORDER BY [Gross domestic product] ASC) OVER() AS MEDIAN
+			  FROM gdp_stats
+			  )
+,
+	 MODE AS (SELECT TOP 1 CASE WHEN COUNT([Gross domestic product]) = 1 THEN NULL
+								WHEN COUNT([Gross domestic product]) != 1 THEN [Gross domestic product]
+						   END AS MODE
+			  FROM gdp_stats
+			  GROUP BY [Gross domestic product]
+			  ORDER BY COUNT([Gross domestic product]) DESC)
+
+SELECT 'GDP' AS STAT,[MEAN], MEDIAN, MODE, [STDEV], ROUND([STDEV]/[MEAN],2) AS CV
+FROM MEAN, STDE, MODE, MEDIAN
+GO
+
+-- Productivity
+WITH MEAN AS (SELECT ROUND(AVG(Productivity),2) AS [MEAN]
+			   FROM gdp_ranks)
+,	 
+	 STDE AS (SELECT ROUND(STDEV(Productivity),2) AS [STDEV]
+			   FROM gdp_ranks)
+,
+   MEDIAN AS (SELECT TOP 1 PERCENTILE_CONT(0.5)
+			  WITHIN GROUP(ORDER BY Productivity ASC) OVER() AS MEDIAN
+			  FROM gdp_ranks
+			  )
+,
+	 MODE AS (SELECT TOP 1 CASE WHEN COUNT(Productivity) = 1 THEN NULL
+								WHEN COUNT(Productivity) != 1 THEN Productivity
+						   END AS MODE
+			  FROM gdp_ranks
+			  GROUP BY Productivity
+			  ORDER BY COUNT(Productivity) DESC)
+
+SELECT 'Productivity' AS STAT,[MEAN], MEDIAN, MODE, [STDEV], ROUND([STDEV]/[MEAN],2) AS CV
+FROM MEAN, STDE, MODE, MEDIAN
+GO
+
+-- Population
+WITH MEAN AS (SELECT ROUND(AVG(Population),2) AS [MEAN]
+			   FROM gdp_stats)
+,	 
+	 STDE AS (SELECT ROUND(STDEV(Population),2) AS [STDEV]
+			   FROM gdp_stats)
+,
+   MEDIAN AS (SELECT TOP 1 PERCENTILE_CONT(0.5)
+			  WITHIN GROUP(ORDER BY Population ASC) OVER() AS MEDIAN
+			  FROM gdp_stats
+			  )
+,
+	 MODE AS (SELECT TOP 1 CASE WHEN COUNT(Population) = 1 THEN NULL
+								WHEN COUNT(Population) != 1 THEN Population
+						   END AS MODE
+			  FROM gdp_stats
+			  GROUP BY Population
+			  ORDER BY COUNT(Population) DESC)
+
+SELECT 'Population' AS STAT,[MEAN], MEDIAN, MODE, [STDEV], ROUND([STDEV]/[MEAN],2) AS CV
+FROM MEAN, STDE, MODE, MEDIAN
+GO
+
+--GDP per capita
+WITH MEAN AS (SELECT ROUND(AVG([GDP per capita]),2) AS [MEAN]
+			   FROM gdp_stats)
+,	 
+	 STDE AS (SELECT ROUND(STDEV([GDP per capita]),2) AS [STDEV]
+			   FROM gdp_stats)
+,
+   MEDIAN AS (SELECT TOP 1 PERCENTILE_CONT(0.5)
+			  WITHIN GROUP(ORDER BY [GDP per capita] ASC) OVER() AS MEDIAN
+			  FROM gdp_stats
+			  )
+,
+	 MODE AS (SELECT TOP 1 CASE WHEN COUNT([GDP per capita]) = 1 THEN NULL
+								WHEN COUNT([GDP per capita]) != 1 THEN [GDP per capita]
+						   END AS MODE
+			  FROM gdp_stats
+			  GROUP BY [GDP per capita]
+			  ORDER BY COUNT([GDP per capita]) DESC)
+
+SELECT 'GDP per capita' AS STAT,[MEAN], MEDIAN, MODE, [STDEV], ROUND([STDEV]/[MEAN],2) AS CV
+FROM MEAN, STDE, MODE, MEDIAN
+GO
+
+--Avg hours worked
+WITH MEAN AS (SELECT ROUND(AVG([Average hours worked per person employed]),2) AS [MEAN]
+			   FROM gdp_stats)
+,	 
+	 STDE AS (SELECT ROUND(STDEV([Average hours worked per person employed]),2) AS [STDEV]
+			   FROM gdp_stats)
+,
+   MEDIAN AS (SELECT TOP 1 PERCENTILE_CONT(0.5)
+			  WITHIN GROUP(ORDER BY [Average hours worked per person employed] ASC) OVER() AS MEDIAN
+			  FROM gdp_stats
+			  )
+,
+	 MODE AS (SELECT TOP 1 CASE WHEN COUNT([Average hours worked per person employed]) = 1 THEN NULL
+								WHEN COUNT([Average hours worked per person employed]) != 1 THEN [Average hours worked per person employed]
+						   END AS MODE
+			  FROM gdp_stats
+			  GROUP BY [Average hours worked per person employed]
+			  ORDER BY COUNT([Average hours worked per person employed]) DESC)
+
+SELECT 'AVG hour worked' AS STAT,[MEAN], MEDIAN, MODE, [STDEV], ROUND([STDEV]/[MEAN],2) AS CV
+FROM MEAN, STDE, MODE, MEDIAN
+GO
+
+--Debt as percentage of GDP
+WITH MEAN AS (SELECT ROUND(AVG([Debt as percent of GDP]),2) AS [MEAN]
+			   FROM gdp_stats)
+,	 
+	 STDE AS (SELECT ROUND(STDEV([Debt as percent of GDP]),2) AS [STDEV]
+			   FROM gdp_stats)
+,
+   MEDIAN AS (SELECT TOP 1 PERCENTILE_CONT(0.5)
+			  WITHIN GROUP(ORDER BY [Debt as percent of GDP] ASC) OVER() AS MEDIAN
+			  FROM gdp_stats
+			  )
+,
+	 MODE AS (SELECT TOP 1 CASE WHEN COUNT([Debt as percent of GDP]) = 1 THEN NULL
+								WHEN COUNT([Debt as percent of GDP]) != 1 THEN [Debt as percent of GDP]
+						   END AS MODE
+			  FROM gdp_stats
+			  GROUP BY [Debt as percent of GDP]
+			  ORDER BY COUNT([Debt as percent of GDP]) DESC)
+
+SELECT 'Debt as percent GDP' AS STAT,[MEAN], MEDIAN, MODE, [STDEV], ROUND([STDEV]/[MEAN],2) AS CV
+FROM MEAN, STDE, MODE, MEDIAN
+GO
+
+--Corruption index
+WITH MEAN AS (SELECT ROUND(AVG([Corruption index]),2) AS [MEAN]
+			   FROM gdp_stats)
+,	 
+	 STDE AS (SELECT ROUND(STDEV([Corruption index]),2) AS [STDEV]
+			   FROM gdp_stats)
+,
+   MEDIAN AS (SELECT TOP 1 PERCENTILE_CONT(0.5)
+			  WITHIN GROUP(ORDER BY [Corruption index] ASC) OVER() AS MEDIAN
+			  FROM gdp_stats
+			  )
+,
+	 MODE AS (SELECT TOP 1 CASE WHEN COUNT([Corruption index]) = 1 THEN NULL
+								WHEN COUNT([Corruption index]) != 1 THEN [Corruption index]
+						   END AS MODE
+			  FROM gdp_stats
+			  GROUP BY [Corruption index]
+			  ORDER BY COUNT([Corruption index]) DESC)
+
+SELECT 'Corruption index' AS STAT,[MEAN], MEDIAN, MODE, [STDEV], ROUND([STDEV]/[MEAN],2) AS CV
+FROM MEAN, STDE, MODE, MEDIAN
+GO
+
+
 --Countries by GDP,PPP
 
 SELECT TOP 15 [Reference area], LEFT([Gross domestic product]/1000000000,7)+'B' AS GDP
@@ -361,3 +524,12 @@ SELECT [Reference area], [Corruption index], [GDP per capita]
 FROM gdp_stats
 ORDER BY [Corruption index]
 GO
+
+SELECT '246030882102528000000' AS Covariance, '0.96' AS [Correlation coefficient] --Population vs GDP
+SELECT '15695508085872.60' AS Covariance, '0.13' AS [Correlation coefficient] --Productivity vs GDP
+SELECT '-4867.53' AS Covariance, '-0.73' AS [Correlation coefficient] --Hours worked vs productivity
+SELECT '39941308969802' AS Covariance, '0.04' AS [Correlation coefficient] --GDP vs Hours woked
+SELECT '-2577.18' AS Covariance, '-0.73' AS [Correlation coefficient] --Corruption vs hours worked
+SELECT '299.90' AS Covariance, '0.71' AS [Correlation coefficient] --Corruption vs Productivity
+SELECT '235328.40' AS Covariance, '0.66' AS [Correlation coefficient] --Corruption vs GDP per capita
+SELECT '5.22' AS GDP, '0.68' AS Productivity, '0.90' AS [Hours Worked], '3.76' AS Population, '-0.40' AS [Corruption index], '1.41' AS [GDP per capita] --Skew
