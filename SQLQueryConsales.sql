@@ -190,3 +190,132 @@ FROM sales_consolidate
 GROUP BY Company
 ORDER BY SUM([Gross sales]) DESC
 GO
+
+-- Statistics
+-- Console units sold
+
+WITH MEAN AS (SELECT ROUND(AVG([Units sold]),2) AS MEAN
+			  FROM sales_consolidate
+			  )
+,
+   MEDIAN AS (SELECT TOP 1 PERCENTILE_CONT(0.5)
+			  WITHIN GROUP(ORDER BY[Units sold] ASC) OVER() AS MEDIAN
+			  FROM sales_consolidate
+			  )
+,
+	 MODE AS (SELECT TOP 1 CASE WHEN COUNT([Units sold]) = 1 THEN NULL
+								WHEN COUNT([Units sold]) != 1 THEN [Units sold]
+						   END AS MODE
+			  FROM sales_consolidate
+			  GROUP BY [Units sold]
+			  ORDER BY COUNT([Units sold]) DESC
+			  )
+,	STDEV AS (SELECT ROUND(STDEV([Units sold]),2) AS STDEV
+			  FROM sales_consolidate
+			  )
+SELECT MEAN, MEDIAN, MODE, STDEV
+FROM MEAN, MEDIAN, MODE, STDEV
+GO
+
+--Launch price
+
+WITH MEAN AS (SELECT ROUND(AVG([Original Price]),2) AS MEAN
+			  FROM sales_consolidate
+			  )
+,
+   MEDIAN AS (SELECT TOP 1 PERCENTILE_CONT(0.5)
+			  WITHIN GROUP(ORDER BY[Original Price] ASC) OVER() AS MEDIAN
+			  FROM sales_consolidate
+			  )
+,
+	 MODE AS (SELECT TOP 1 CASE WHEN COUNT([Original Price]) = 1 THEN NULL
+								WHEN COUNT([Original Price]) != 1 THEN [Original Price]
+						   END AS MODE
+			  FROM sales_consolidate
+			  GROUP BY [Original Price]
+			  ORDER BY COUNT([Original Price]) DESC
+			  )
+,	STDEV AS (SELECT ROUND(STDEV([Original Price]),2) AS STDEV
+			  FROM sales_consolidate
+			  )
+SELECT MEAN, MEDIAN, MODE, STDEV
+FROM MEAN, MEDIAN, MODE, STDEV
+GO
+
+--Adjusted price
+
+WITH MEAN AS (SELECT ROUND(AVG([Adjusted Price]),2) AS MEAN
+			  FROM sales_consolidate
+			  )
+,
+   MEDIAN AS (SELECT TOP 1 PERCENTILE_CONT(0.5)
+			  WITHIN GROUP(ORDER BY[Adjusted Price] ASC) OVER() AS MEDIAN
+			  FROM sales_consolidate
+			  )
+,
+	 MODE AS (SELECT TOP 1 CASE WHEN COUNT([Adjusted Price]) = 1 THEN NULL
+								WHEN COUNT([Adjusted Price]) != 1 THEN [Adjusted Price]
+						   END AS MODE
+			  FROM sales_consolidate
+			  GROUP BY [Adjusted Price]
+			  ORDER BY COUNT([Adjusted Price]) DESC
+			  )
+,	STDEV AS (SELECT ROUND(STDEV([Adjusted Price]),2) AS STDEV
+			  FROM sales_consolidate
+			  )
+SELECT MEAN, MEDIAN, MODE, STDEV
+FROM MEAN, MEDIAN, MODE, STDEV
+GO
+
+-- Gross sales at launch cost
+
+WITH MEAN AS (SELECT ROUND(AVG([Original gross sales]),2) AS MEAN
+			  FROM sales_consolidate
+			  )
+,
+   MEDIAN AS (SELECT TOP 1 PERCENTILE_CONT(0.5)
+			  WITHIN GROUP(ORDER BY[Original gross sales] ASC) OVER() AS MEDIAN
+			  FROM sales_consolidate
+			  )
+,
+	 MODE AS (SELECT TOP 1 CASE WHEN COUNT([Original gross sales]) = 1 THEN NULL
+								WHEN COUNT([Original gross sales]) != 1 THEN [Original gross sales]
+						   END AS MODE
+			  FROM sales_consolidate
+			  GROUP BY [Original gross sales]
+			  ORDER BY COUNT([Original gross sales]) DESC
+			  )
+,	STDEV AS (SELECT ROUND(STDEV([Original gross sales]),2) AS STDEV
+			  FROM sales_consolidate
+			  )
+SELECT MEAN, MEDIAN, MODE, STDEV
+FROM MEAN, MEDIAN, MODE, STDEV
+GO
+
+-- Gross sales adjusted 2024
+
+WITH MEAN AS (SELECT ROUND(AVG([Gross sales]),2) AS MEAN
+			  FROM sales_consolidate
+			  )
+,
+   MEDIAN AS (SELECT TOP 1 PERCENTILE_CONT(0.5)
+			  WITHIN GROUP(ORDER BY[Gross sales] ASC) OVER() AS MEDIAN
+			  FROM sales_consolidate
+			  )
+,
+	 MODE AS (SELECT TOP 1 CASE WHEN COUNT([Gross sales]) = 1 THEN NULL
+								WHEN COUNT([Gross sales]) != 1 THEN [Gross sales]
+						   END AS MODE
+			  FROM sales_consolidate
+			  GROUP BY [Gross sales]
+			  ORDER BY COUNT([Gross sales]) DESC
+			  )
+,	STDEV AS (SELECT ROUND(STDEV([Gross sales]),2) AS STDEV
+			  FROM sales_consolidate
+			  )
+SELECT MEAN, MEDIAN, MODE, STDEV
+FROM MEAN, MEDIAN, MODE, STDEV
+GO
+
+SELECT '324373361.34' AS Covariance, '0.06' AS [Correlation coefficient] --Launch cost vs Units sold
+SELECT '792529230672.27' AS Covariance, '0.47' AS [Correlation coefficient] --Revenue vs Units sold
